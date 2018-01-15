@@ -1,1 +1,3 @@
 Ovaj fajl cemo obrisati u jednom momentu.
+
+Ovo je izmena 2, koja ce biti uklonjena
