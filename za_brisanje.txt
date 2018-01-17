@@ -3,5 +3,3 @@ Ovaj fajl cemo obrisati u jednom momentu.
 Ovo je izmena 2, koja ce biti uklonjena
 
 Ovo je izmena 3, isto ce biti uklonjena.
-
-Ovo je izmena 4. Bice uklonjena.
