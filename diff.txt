@@ -4,4 +4,6 @@ Fajl diff je u verziji 2.
 
 Diff fajl, verzija 3.
 
-Diff fajl, verzija 5. Verzije 4 nema.
+Diff fajl, verzija 5. Izmenili smo red verzije 5.
+
+Verzija 6, fajla diff.
