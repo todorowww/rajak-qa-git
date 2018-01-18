@@ -1,3 +1,5 @@
 Fajl diff u prvoj verziji.
 
 Fajl diff je u verziji 2.
+
+Diff fajl, verzija 3.
