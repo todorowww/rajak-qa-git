@@ -3,3 +3,5 @@ Fajl diff u prvoj verziji.
 Fajl diff je u verziji 2.
 
 Diff fajl, verzija 3.
+
+Diff fajl, v4 - U verziji 5, ovog reda nece biti.
