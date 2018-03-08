@@ -1,1 +1,5 @@
 Ovo je fajl koji je napravio Slobodan.
+
+Dodao sam jedan red.
+
+Jos malo izmena.
