@@ -1,0 +1,658 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support;
+using OpenQA.Selenium.Support.UI;
+
+/*This TCs are for user registration....
+ * */
+
+namespace Cas29_30
+{
+    class TC1
+    {
+        IWebDriver driver;
+        string isDisplayed;
+        string email = "qa@testing.net";
+        string pwd = "pw0rd4qa!";
+
+        [SetUp]
+        public void StartBrowser()
+        {
+            driver = new FirefoxDriver();
+            
+        }
+
+        public void GoToURL(string url)
+        {
+            this.driver.Url = url;
+        }
+
+        public void Sleep(int seconds)
+        {
+            Thread.Sleep(TimeSpan.FromSeconds(seconds));
+        }
+
+        public IWebElement WaitForElement(By by, int timeoutSeconds)
+        {
+            if (timeoutSeconds > 0)
+            {
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutSeconds));
+                wait.Until(drv => drv.FindElement(by));
+            }
+            return driver.FindElement(by);
+        }
+
+        /*1. Navigate to ....
+         * 2. Verify that ..... exist/displayed
+         * /
+
+        [Test]
+        public void TestGoogleRegistration()
+        {
+            GoToURL("https://accounts.google.com/SignUp");
+            Sleep(5);
+
+            //Unos u polje first name
+            IWebElement firstName = WaitForElement(By.XPath("//input[@id='FirstName']"), 5);
+            firstName.SendKeys("Qafn");
+
+            //Unos u polje last name
+            IWebElement lastName = WaitForElement(By.XPath("//input[@id='LastName']"), 5);
+            lastName.SendKeys("Qaln");
+
+            string strUserName = "NekoTamoUNPolje";
+            //Unos u polje username
+            IWebElement userName = WaitForElement(By.XPath("//input[@id='GmailAddress']"), 5);
+            userName.SendKeys(strUserName);
+
+            string strPasswd = "P4ssw0rd!?";
+            //Unos u polje password
+            IWebElement passwd = WaitForElement(By.XPath("//input[@id='Passwd']"), 5);
+            passwd.SendKeys(strPasswd);
+
+            //Unos u polje password
+            IWebElement passwd2 = WaitForElement(By.XPath("//input[@id='PasswdAgain']"), 5);
+            passwd2.SendKeys(strPasswd);
+
+            //Unos u polje Day
+            IWebElement birthDay = WaitForElement(By.XPath("//input[@id='BirthDay']"), 5);
+            birthDay.SendKeys("14");
+
+            //Unos u polje Year
+            IWebElement birthYear = WaitForElement(By.XPath("//input[@id='BirthYear']"), 5);
+            birthYear.SendKeys("1979");
+
+            //Click na polje mesec
+            IWebElement bMonth = WaitForElement(By.XPath("//span[@id='BirthMonth']"), 5);
+            bMonth.Click();
+
+            //Biramo mesec rodjenja
+            IWebElement birthMonth = WaitForElement(By.XPath("//div[@id=':4']"), 5);
+            birthMonth.Click();
+
+            //Click na polje Pol
+            IWebElement bGender = WaitForElement(By.XPath("//div[@id='Gender']"), 5);
+            bGender.Click();
+
+            //Biramo pol osobe
+            IWebElement gender = WaitForElement(By.XPath("//div[@class='goog-menuitem' and @id=':f']"), 5);
+            gender.Click();
+
+            //Upisujemo telefon
+            IWebElement recPhone = WaitForElement(By.XPath("//input[@id='RecoveryPhoneNumber']"), 5);
+            recPhone.SendKeys("60123456");
+
+            Sleep(20);
+
+        }
+
+
+        [Test]
+        public void CheckElementsExist()
+        {
+            GoToURL("https://accounts.google.com/SignUp");
+            Sleep(10);
+
+            bool isIcons = driver.FindElement(By.ClassName("devices-icon")).Displayed;
+
+            string isDisplayed = Convert.ToString(isIcons);
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Selenium2930.txt", "TC 001 Step 001 - Devices image is displayed, " + isDisplayed + Environment.NewLine);
+
+            bool issmallIcons = driver.FindElement(By.ClassName("logo-strip")).Displayed;
+
+            isDisplayed = Convert.ToString(issmallIcons);
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Selenium2930.txt", "TC 001 Step 002 - Small Icons are displayed, " + isDisplayed + Environment.NewLine);
+
+            bool isSubmit = driver.FindElement(By.ClassName("nextstep-button")).Displayed;
+
+            isDisplayed = Convert.ToString(isSubmit);
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Selenium2930.txt", "TC 001 Step 003 - Devices image is displayed, " + isDisplayed + Environment.NewLine);
+        }
+
+        [Test]
+        public void TestingRegistrationUQA()
+        {
+            GoToURL("https://courses.ultimateqa.com/users/sign_up");
+            Sleep(10);
+
+            bool isRegOpen = driver.FindElement(By.Id("user_first_name")).Displayed;
+            isDisplayed = Convert.ToString(isRegOpen);
+            System.IO.File.AppendAllText("D:\\Selenium\\Cas30.txt", "Registration page is opened " + isDisplayed + Environment.NewLine);
+
+            driver.FindElement(By.Id("user_first_name")).SendKeys("QAFirst");
+            driver.FindElement(By.Id("user_last_name")).SendKeys("QALast");
+
+            driver.FindElement(By.Id("user_email")).SendKeys(email);
+            driver.FindElement(By.Id("user_password")).SendKeys(pwd);
+            driver.FindElement(By.Id("btn-signup")).Click();
+
+            Sleep(10);
+            
+        }
+
+        [Test]
+        public void UltimateQASignIn()
+        {
+            string qaSignIn = "https://courses.ultimateqa.com/";
+
+            GoToURL(qaSignIn);
+            Sleep(5);
+
+            //dobijanje trenutnog URLa otvorene stranice 
+            string currentURL = driver.Url;
+            System.IO.File.AppendAllText("D:\\Selenium\\Cas32.txt", "Current URL is: " + currentURL + Environment.NewLine);
+
+            if (qaSignIn == currentURL)
+            {
+                ////1 nacin ispisa provere da li je uneti URL jednak trenutnom URL u browseru
+                //System.IO.File.AppendAllText("D:\\Selenium\\Cas32.txt", "Current URL is equal to entered URL " + Environment.NewLine);
+
+                //2 nacin ispisa provere da li je uneti URL jednak trenutnom URL u browseru
+                bool isTrue = true;
+                System.IO.File.AppendAllText("D:\\Selenium\\Cas32.txt", "Current URL is equal to entered URL: " + isTrue + Environment.NewLine);
+
+            }
+            else
+            {
+                ////1 nacin
+                //System.IO.File.AppendAllText("D:\\Selenium\\Cas32.txt", "Current URL is NOT equal to entered URL " + Environment.NewLine);
+
+                //2 nacin
+                bool isTrue = false;
+                System.IO.File.AppendAllText("D:\\Selenium\\Cas32.txt", "Current URL is NOT equal to entered URL: " + isTrue + Environment.NewLine);
+                
+            }
+
+            //klik na sign in element
+            driver.FindElement(By.PartialLinkText("Sign In")).Click();
+            Sleep(10);
+
+            IWebElement userEmail = driver.FindElement(By.Id("user_email"));
+            IWebElement userpwd = driver.FindElement(By.Id("user_password"));
+            IWebElement submitBtn = driver.FindElement(By.Id("btn-signin"));
+            
+            bool chk1 = userEmail.Displayed;
+            bool chk2 = userpwd.Displayed;
+            bool chk3 = submitBtn.Displayed;
+
+            //1 nacin ispisa
+            bool chk4 = chk1 && chk2 && chk3;
+            isDisplayed = Convert.ToString(chk4);
+            System.IO.File.AppendAllText("D:\\Selenium\\Cas32.txt", "1. Nacin - Polja email, password i button sign in " + isDisplayed + Environment.NewLine);
+
+            //2 nacin - skracena varijanta
+            isDisplayed = Convert.ToString(chk1 && chk2 && chk3);
+
+            //
+            if (isDisplayed == "True")
+            {
+                isDisplayed = "su prikazana";
+            }
+            else
+            {
+                isDisplayed = "nisu prikazana";
+            }
+            System.IO.File.AppendAllText("D:\\Selenium\\Cas32.txt", "2. Nacin - Polja email, password i button sign in " + isDisplayed + Environment.NewLine);
+
+            userEmail.SendKeys(email);
+            userpwd.SendKeys(pwd);
+            submitBtn.Click();
+
+            Sleep(10);
+
+            IWebElement myAcc = driver.FindElement(By.ClassName("user-name"));
+            isDisplayed = Convert.ToString(myAcc.Displayed);
+
+            if (isDisplayed == "True")
+            {
+                isDisplayed = "sucesfully";
+            }
+            else
+            {
+                isDisplayed = "not succesfull";
+            }
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Cas32.txt", "Sign in " + isDisplayed + Environment.NewLine);
+            
+        }
+
+        /*
+         * function CreateUser = function that is used to create user
+         */
+
+        //[Test]
+        //public void Cas33()
+        //{
+        //    GoToURL("http://www.seleniumeasy.com/test/input-form-demo.html");
+        //    Sleep(10);
+
+        //    string FirstName = "FName";
+        //    string LastName = "LName";
+        //    string brojTel = "(012)23 - 445 - 56";
+        //    string address = "Street 123";
+        //    string city = "San Mateo";
+        //    string zip = "12345";
+        //    string comm = "QA Comment";
+        //    string web = "https://www.google.com";
+
+        //    IWebElement fName = driver.FindElement(By.Name("first_name"));
+        //    fName.SendKeys(FirstName);
+
+        //    IWebElement lName = driver.FindElement(By.Name("last_name"));
+        //    lName.SendKeys(LastName);
+
+        //    IWebElement mail = driver.FindElement(By.Name("email"));
+        //    mail.SendKeys(email);
+
+        //    IWebElement telefon = driver.FindElement(By.Name("phone"));
+        //    telefon.SendKeys(brojTel);
+
+        //    IWebElement addres = driver.FindElement(By.Name("address"));
+        //    addres.SendKeys(address);
+
+        //    IWebElement cit = driver.FindElement(By.Name("city"));
+        //    cit.SendKeys(city);
+
+        //    IWebElement state = driver.FindElement(By.XPath("//select[@name='state']/option[contains(text(),'California')]"));
+        //    state.Click();
+        //    Sleep(5);
+
+        //    IWebElement zipCode = driver.FindElement(By.Name("zip"));
+        //    zipCode.SendKeys(zip);
+
+        //    IWebElement webSite = driver.FindElement(By.Name("website"));
+        //    webSite.SendKeys(web);
+
+        //    IWebElement hosting = driver.FindElement(By.XPath("//input[@value='no']"));
+        //    hosting.Click();
+
+        //    IWebElement comment = driver.FindElement(By.Name("comment"));
+        //    comment.SendKeys(comm);
+
+        //    IWebElement btnSubmit = driver.FindElement(By.ClassName("btn-default"));
+        //    btnSubmit.Click();
+
+        //    string chkFname = fName.GetAttribute("value");
+        //    string chkLname = lName.GetAttribute("value");
+        //    string chkMail = mail.GetAttribute("value");
+        //    string chkTelefon = telefon.GetAttribute("value");
+        //    string chkAddress = addres.GetAttribute("value");
+        //    string chkCity = cit.GetAttribute("value");
+        //    string chkState = state.GetAttribute("value");
+        //    string chkZip = zipCode.GetAttribute("value");
+        //    string chkWeb = webSite.GetAttribute("value");
+        //    string chkComm = comment.GetAttribute("value");
+        //    string chkHost = hosting.GetAttribute("value");
+
+        //    bool chk1 = (chkFname == FirstName);
+        //    bool chk2 = (chkLname == LastName);
+        //    bool chk3 = (chkMail == email);
+        //    bool chk4 = (chkTelefon == brojTel);
+        //    bool chk5 = (chkAddress == address);
+        //    bool chk6 = (chkCity == city);
+        //    bool chk7 = (chkState == "California");
+        //    bool chk8 = (chkZip == zip);
+        //    bool chk9 = (chkWeb == web);
+        //    bool chk10 = (chkComm == comm);
+        //    bool chk11 = (chkHost == "no");
+
+
+        //    if (chk1 && chk2 && chk3 && chk4 && chk5 && chk6 && chk7 && chk8 && chk9 && chk10 && chk11)
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Cas33.txt", "Tekst u poljima je unesen ispravno" + Environment.NewLine);
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Cas33.txt", "Tekst u poljima nije unesen ispravno" + Environment.NewLine);
+        //    }
+
+        //    Sleep(5);
+        //}
+
+        //[Test]
+        //public void Marko()
+        //{
+        //    string phone;
+        //    string adress;
+        //    string city;
+        //    string state;
+        //    string zipCode;
+        //    string website;
+
+        //    GoToURL("http://www.seleniumeasy.com/test/input-form-demo.html");
+        //    Sleep(10);
+
+        //    bool isRegOpen = driver.FindElement(By.Id("site-slogan")).Displayed;
+        //    isDisplayed = Convert.ToString(isRegOpen);
+        //    System.IO.File.AppendAllText("D:\\Selenium\\Selenium_33Marko.txt", "Registration page is opened " + isDisplayed + Environment.NewLine);
+
+        //    driver.FindElement(By.Name("first_name")).SendKeys("Mare");
+        //    driver.FindElement(By.Name("last_name")).SendKeys("Antonije");
+        //    email = "markoantonije.qa2@gmail.com";
+        //    driver.FindElement(By.Name("email")).SendKeys(email);
+        //    phone = "(012)23 - 445 - 56";
+        //    driver.FindElement(By.Name("phone")).SendKeys(phone);
+        //    adress = "Kursulina 5";
+        //    driver.FindElement(By.Name("adress")).SendKeys(adress);
+        //    city = "Kraljevo";
+        //    driver.FindElement(By.Name("city")).SendKeys(city);
+        //    state = "Serbia";
+        //    driver.FindElement(By.Name("state")).SendKeys(state);
+        //    zipCode = "36000";
+        //    driver.FindElement(By.Name("state")).SendKeys(zipCode);
+        //    website = "http://www.markoantonije.rs";
+        //    driver.FindElement(By.Name("website")).SendKeys(website);
+        //}
+
+        //[Test]
+        //public void Danica()
+        //{
+        //    string easySignIn = "http://www.seleniumeasy.com/test/input-form-demo.html";
+        //    GoToURL(easySignIn);
+        //    Sleep(5);
+
+        //    //string currentURL = driver.Url;
+        //    //System.IO.File.AppendAllText("g:\\QA testing -Rajak\\Cas 30\\Cas33.txt", "Current URL is:  : " + currentURL + Environment.NewLine);
+
+        //    string firstName = "Filip";
+        //    string lastName = "Gojkovic";
+        //    string eMail = "fgojko@gmail.com";
+        //    string telephone = "(845)555-1212";
+        //    string adresa = "Ulica Z.Radmilovica";
+        //    string mesto = "Beograd";
+        //    string brojOp = "11000";
+        //    string web = "https://www.vuckovic.rs/";
+
+
+
+        //    IWebElement firstN = driver.FindElement(By.Name("first_name"));
+        //    IWebElement lastN = driver.FindElement(By.Name("last_name"));
+        //    IWebElement eMl = driver.FindElement(By.Name("email"));
+        //    IWebElement tel = driver.FindElement(By.Name("phone"));
+        //    IWebElement adr = driver.FindElement(By.Name("address"));
+        //    IWebElement grad = driver.FindElement(By.Name("city"));
+        //    IWebElement zipC = driver.FindElement(By.Name("zip"));
+        //    IWebElement sajt = driver.FindElement(By.Name("website"));
+
+
+        //    firstN.SendKeys(firstName);
+        //    lastN.SendKeys(lastName);
+        //    eMl.SendKeys(eMail);
+        //    tel.SendKeys(telephone);
+        //    adr.SendKeys(adresa);
+        //    grad.SendKeys(mesto);
+        //    zipC.SendKeys(brojOp);
+        //    sajt.SendKeys(web);
+        //    Sleep(5);
+
+        //}
+
+        //[Test]
+        //public void Cas34()
+        //{
+        //    GoToURL("http://www.seleniumeasy.com/test/basic-radiobutton-demo.html");
+        //    Sleep(5);
+
+        //    IWebElement chkBox1 = driver.FindElement(By.Id("isAgeSelected"));
+
+        //    bool sChkBox = chkBox1.Displayed;
+
+        //    isDisplayed = Convert.ToString(sChkBox);
+
+        //    System.IO.File.AppendAllText("D:\\Selenium\\Selenium3435.txt", "TC 001 Step 001 - Single CheckBox is displayed, " + isDisplayed + Environment.NewLine);
+
+        //    chkBox1.Click();
+
+        //    bool chk1 = chkBox1.Selected;
+
+        //    if (chk1)
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium3435.txt", "TC 001 Step 002 - Single CheckBox is checked, " + Environment.NewLine);
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium3435.txt", "TC 001 Step 002 - Single CheckBox is NOT checked, " + Environment.NewLine);
+        //    }
+
+        //    IWebElement rb1 = driver.FindElement(By.XPath("//input[@value='Male' and @name='gender']"));
+
+        //    rb1.Click();
+        //    Sleep(2);
+
+        //    bool chk1 = Convert.ToBoolean(rb1.GetAttribute("checked"));
+
+        //    if (chk1)
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium3435.txt", "TC 001 Step 003 - Male Radio group is selected, " + Environment.NewLine);
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium3435.txt", "TC 001 Step 003 - Male Radio group is NOT selected, " + Environment.NewLine);
+        //    }
+
+        //    Sleep(5);
+        //}
+
+        //[Test]
+        //public void Ljubica34()
+        //{
+        //    GoToURL("http://www.seleniumeasy.com/test/basic-checkbox-demo.html");
+        //    Sleep(5);
+
+        //    IWebElement chkBox1 = driver.FindElement(By.Id("isAgeSelected"));
+
+        //    bool sChkBox = chkBox1.Displayed;
+
+        //    isDisplayed = Convert.ToString(sChkBox);
+
+        //    System.IO.File.AppendAllText("D:\\Selenium\\Ljubica.txt", "TC 001 Step 001 - Single CheckBox is displayed, " + isDisplayed + Environment.NewLine);
+
+        //    //Klik na "Click on this check box"
+        //    chkBox1.Click();
+
+        //    bool chk1 = chkBox1.Selected;
+
+        //    if (chk1)
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Ljubica.txt", "TC 001 Step 002 - Single CheckBox is checked, " + Environment.NewLine);
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Ljubica.txt", "TC 001 Step 002 - Single CheckBox is NOT checked, " + Environment.NewLine);
+        //    }
+        //    // verify that "Success - Check box is checked" is displayed
+        //    IWebElement lbl1 = driver.FindElement(By.Id("txtAge"));
+        //    bool displayedLbl = lbl1.Displayed;
+        //    if (displayedLbl)
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Ljubica.txt", "TC 002 Step 001 - Success - Check box is displayed " + Environment.NewLine);
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Ljubica.txt", "TC 002 Step 001 - Success - Check box is NOT displayed " + Environment.NewLine);
+        //    }
+
+        //    //2. Click on "Check All" button
+        //    IWebElement chkAll = driver.FindElement(By.Id("check1"));
+        //    bool selectedChkAll = chkAll.Selected;
+        //    if (selectedChkAll)
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Ljubica.txt", "TC 002 Step 002 - CheckAll CheckBox is checked, " + Environment.NewLine);
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Ljubica.txt", "TC 002 Step 002 - CheckAll CheckBox is NOT checked, " + Environment.NewLine);
+        //    }
+        //    //Verify that "Uncheck All" BUTTON is displayed
+        //}
+
+        //[Test]
+        //public void Marko34()
+        //{
+        //    GoToURL("http://www.seleniumeasy.com/test/basic-checkbox-demo.html");
+        //    Sleep(5);
+
+        //    IWebElement chkBox1 = driver.FindElement(By.Id("isAgeSelected"));
+
+        //    bool sChkBox = chkBox1.Displayed;
+
+        //    isDisplayed = Convert.ToString(sChkBox);
+
+        //    System.IO.File.AppendAllText("D:\\Selenium\\Selenium 34.txt", "TC 001 Steep 001 - Single CheckBox is displayed " + isDisplayed + Environment.NewLine);
+
+        //    chkBox1.Click();
+
+        //    bool chk1 = chkBox1.Selected;
+
+        //    if (chk1)
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium 34.txt", "TC 001 Steep 002 - Single CheckBox is checked " + Environment.NewLine);
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium 34.txt", "TC 001 Steep 003 - Success - Check box is checked is displayed " + Environment.NewLine);
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium 34.txt", "TC 001 Steep 002 - Single CheckBox is NOT checked " + Environment.NewLine);
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium 34.txt", "TC 001 Steep 003 - Success - Check box is checked is NOT displayed " + Environment.NewLine);
+        //    }
+        //    Sleep(5);
+
+        //    IWebElement chkAllBtn = driver.FindElement(By.Id("check1"));
+
+        //    chkAllBtn.Click();
+
+        //    bool chk2 = chkAllBtn.Selected;
+
+        //    if (chk2)
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium 34.txt", "TC 002 Steep 001 - Uncheck All BUTTON is displayed " + Environment.NewLine);
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.AppendAllText("D:\\Selenium\\Selenium 34.txt", "TC 002 Steep 001 - Uncheck All BUTTON is NOT displayed " + Environment.NewLine);
+        //    }
+        //}
+
+        [Test]
+        public void Tabele()
+        {
+            GoToURL("http://www.seleniumeasy.com/test/table-data-download-demo.html");
+            Sleep(5);
+
+            IWebElement table = driver.FindElement(By.Id("example"));
+
+            isDisplayed = Convert.ToString(table.Displayed);
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Selenium35.txt", "Table is displayed, " + isDisplayed + Environment.NewLine);
+
+            //klik za sortiranje tabele po odredjenoj koloni
+            IWebElement position = driver.FindElement(By.XPath("//th[@aria-label='Position: activate to sort column ascending']"));
+            position.Click();
+            Sleep(3);
+
+            //ispis odredjenih elemenata u tabeli
+            IList<IWebElement> tableRowsSort = driver.FindElements(By.XPath("//td[@class='sorting_1']"));
+
+            foreach (var item in tableRowsSort)
+            {
+                System.IO.File.AppendAllText("D:\\Selenium\\Selenium35.txt", item.Text.ToString() + Environment.NewLine);
+            }
+
+            //ispis svih redova u tabeli
+            IList<IWebElement> allTableRows = table.FindElements(By.XPath("//tr[@role='row']"));
+
+            foreach (var rows in allTableRows)
+            {
+                System.IO.File.AppendAllText("D:\\Selenium\\Selenium35.txt", rows.Text.ToString() + Environment.NewLine);
+            }
+
+            //ispis odredjenog elementa u tabeli
+            //.- bilo koji element // ,- bilo gde
+            isDisplayed = Convert.ToString(table.FindElement(By.XPath("//td[contains(.,'San Francisco')]")).Displayed);
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Selenium35.txt", "San Francisco is displayed" + isDisplayed + Environment.NewLine);
+
+            //2gi nacin
+            IWebElement sF = table.FindElement(By.XPath("//td[contains(.,'San Francisco')]"));
+            bool chk = sF.Displayed;
+            isDisplayed = Convert.ToString(chk);
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Selenium35.txt", "San Francisco is displayed" + isDisplayed + Environment.NewLine);
+        }
+
+        [Test]
+        public void Datum()
+        {
+            GoToURL("http://www.seleniumeasy.com/test/bootstrap-date-picker-demo.html");
+            Sleep(5);
+
+            //direktan upis u polje u zadatom formatu
+            IWebElement selectDate = driver.FindElement(By.XPath("//input[@type='text' and @placeholder='dd/mm/yyyy']"));
+            selectDate.SendKeys("07/03/2018");
+
+            string inDate = selectDate.GetProperty("value");
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Selenium35.txt", inDate + Environment.NewLine);
+
+            //navigacija po kalendaru
+            selectDate.Click();
+            Sleep(2);
+
+            //definisanje tabele sa datumima
+            IWebElement table = driver.FindElement(By.ClassName("table-condensed"));
+
+            //definisanje previous elementa
+            IWebElement prev = table.FindElement(By.ClassName("prev"));
+
+            prev.Click();
+            Sleep(1);
+
+            //definisanje next elementa
+            IWebElement next = table.FindElement(By.XPath("//th[@class='next' and @style='visibility: visible;']"));
+
+            //proera da li next postoji
+            bool chk = next.Displayed;
+
+            isDisplayed = Convert.ToString(chk);
+
+            System.IO.File.AppendAllText("D:\\Selenium\\Selenium35.txt", "Prikazan je next element, " + isDisplayed + Environment.NewLine);
+
+        }
+
+
+        [TearDown]
+        public void CloseBrowser()
+        {
+            driver.Close();
+        }
+    }
+}
